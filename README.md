@@ -4,6 +4,8 @@ Private, fail-closed automation for one English **Unbelievable but True History*
 
 The daily cron is intentionally **not active yet**. Public publishing is also code-locked. Both remain disabled until the real private upload test passes.
 
+**Commissioning status:** the first GitHub-hosted QA run was blocked before a runner started because the account has an Actions `$0` budget with **Stop usage** enabled. The local suite passes, but cloud execution cannot be claimed operational until that account-level constraint is resolved. Making this secret-free code repository public is the zero-spend route because GitHub documents standard runners as free for public repositories.
+
 ## Architecture
 
 ```text
