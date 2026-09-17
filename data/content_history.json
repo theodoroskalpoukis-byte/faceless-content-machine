@@ -1,4 +1,17 @@
 {
   "version": 1,
-  "items": []
+  "items": [
+    {
+      "date": "2026-09-17",
+      "status": "failed",
+      "errors": [
+        "Script must be 70-120 words, got 44"
+      ],
+      "validation": {},
+      "footage": [],
+      "publishing": [],
+      "updated_at": "2026-09-17T19:47:32.696572+00:00",
+      "created_at": "2026-09-17T19:47:32.696572+00:00"
+    }
+  ]
 }
