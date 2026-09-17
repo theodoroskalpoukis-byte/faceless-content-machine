@@ -1,0 +1,2 @@
+requests==2.32.5
+piper-tts==1.8.0

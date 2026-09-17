@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "faceless-content-machine"
+version = "0.1.0"
+description = "Fail-closed zero-budget history Shorts pipeline"
+requires-python = ">=3.11"
+dependencies = [
+  "requests==2.32.5",
+  "piper-tts==1.8.0"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

@@ -1,0 +1,45 @@
+name: QA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core
+      - name: Install Python dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Unit tests
+        run: pytest -q -m "not integration"
+      - name: Deterministic end-to-end render QA
+        env:
+          PUBLISH_MODE: dry-run
+        run: python -m faceless_machine.pipeline --fixture
+      - name: Upload QA video and reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: fixture-render-${{ github.run_id }}
+          path: |
+            output/**/render/short.mp4
+            output/**/metadata.json
+            output/last_run.json
+          retention-days: 7
+          if-no-files-found: error

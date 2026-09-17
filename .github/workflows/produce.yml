@@ -1,0 +1,91 @@
+name: Produce one Short
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_mode:
+        description: "dry-run or private; public remains code-locked until launch QA"
+        required: true
+        default: dry-run
+        type: choice
+        options:
+          - dry-run
+          - private
+      enable_youtube:
+        description: "Upload to YouTube when mode is private"
+        type: boolean
+        default: false
+      enable_tiktok:
+        description: "Upload to TikTok when mode is private"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: production-short
+  cancel-in-progress: false
+
+jobs:
+  produce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      PUBLISH_MODE: ${{ inputs.publish_mode }}
+      ENABLE_YOUTUBE: ${{ inputs.enable_youtube }}
+      ENABLE_TIKTOK: ${{ inputs.enable_tiktok }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+      TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+      TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Cache Piper voice
+        uses: actions/cache@v4
+        with:
+          path: .cache/piper
+          key: piper-en-US-lessac-medium-v1
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core
+          pip install -r requirements.txt
+      - name: Download local voice if absent
+        run: python scripts/download_piper_voice.py
+      - name: Generate, validate, and optionally publish
+        run: python -m faceless_machine.pipeline
+      - name: Save content history
+        if: always()
+        run: |
+          if git diff --quiet -- data/content_history.json; then exit 0; fi
+          git config user.name "faceless-content-machine[bot]"
+          git config user.email "faceless-content-machine[bot]@users.noreply.github.com"
+          git add data/content_history.json
+          git commit -m "chore: record content run [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Upload run diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-run-${{ github.run_id }}
+          path: |
+            output/**/render/short.mp4
+            output/**/metadata.json
+            output/last_run.json
+          retention-days: 7
+          if-no-files-found: warn
+
+# The UTC cron is intentionally absent. It will be added only after a real
+# private end-to-end upload passes on both connected destinations.

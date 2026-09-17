@@ -1,0 +1,134 @@
+[
+  {
+    "topic": "The 1919 Boston molasses flood",
+    "historical_period": "1919",
+    "main_person_or_event": "Great Molasses Flood",
+    "facts": [
+      "A large molasses storage tank burst in Boston on January 15, 1919.",
+      "A fast-moving wave of molasses swept through the North End.",
+      "The disaster killed 21 people and injured about 150."
+    ],
+    "sources": [
+      {
+        "url": "https://www.britannica.com/event/Great-Molasses-Flood",
+        "title": "Encyclopaedia Britannica: Great Molasses Flood",
+        "facts": ["On January 15, 1919, a storage tank burst in Boston's North End.", "The flood killed 21 people and injured about 150."]
+      },
+      {
+        "url": "https://www.smithsonianmag.com/history/great-molasses-flood-1919-180974120/",
+        "title": "Smithsonian Magazine: The Great Molasses Flood of 1919",
+        "facts": ["Molasses from a ruptured tank moved through Boston's North End.", "The disaster killed 21 people."]
+      }
+    ]
+  },
+  {
+    "topic": "The shortest war in recorded history",
+    "historical_period": "1896",
+    "main_person_or_event": "Anglo-Zanzibar War",
+    "facts": [
+      "Britain and Zanzibar fought on August 27, 1896.",
+      "The conflict lasted less than an hour.",
+      "It followed a dispute over who would become sultan after Hamad bin Thuwaini died."
+    ],
+    "sources": [
+      {
+        "url": "https://www.britannica.com/event/Anglo-Zanzibar-War",
+        "title": "Encyclopaedia Britannica: Anglo-Zanzibar War",
+        "facts": ["The Anglo-Zanzibar War was fought on August 27, 1896.", "It lasted no longer than 40 minutes."]
+      },
+      {
+        "url": "https://www.hrp.org.uk/tower-of-london/history-and-stories/anglo-zanzibar-war/",
+        "title": "Historic Royal Palaces: Anglo-Zanzibar War",
+        "facts": ["The war was extremely brief and followed a succession dispute in Zanzibar."]
+      }
+    ]
+  },
+  {
+    "topic": "When London held fairs on the frozen River Thames",
+    "historical_period": "17th-19th centuries",
+    "main_person_or_event": "River Thames frost fairs",
+    "facts": [
+      "During especially cold winters, the River Thames sometimes froze solid enough to support crowds.",
+      "People set up booths, food stalls and entertainments on the ice.",
+      "The last major frost fair took place in 1814."
+    ],
+    "sources": [
+      {
+        "url": "https://www.historic-uk.com/HistoryUK/HistoryofEngland/The-Thames-Frost-Fairs/",
+        "title": "Historic UK: The Thames Frost Fairs",
+        "facts": ["Fairs and entertainments were held on the frozen Thames.", "The last frost fair was in 1814."]
+      },
+      {
+        "url": "https://www.rmg.co.uk/stories/topics/frost-fairs-river-thames",
+        "title": "Royal Museums Greenwich: Frost fairs on the River Thames",
+        "facts": ["The Thames froze during severe winters and people gathered on the ice.", "The ice hosted stalls and entertainment."]
+      }
+    ]
+  },
+  {
+    "topic": "The year without a summer",
+    "historical_period": "1816",
+    "main_person_or_event": "Year Without a Summer",
+    "facts": [
+      "Global temperatures fell in 1816 after the 1815 eruption of Mount Tambora.",
+      "Cold and abnormal weather damaged crops in parts of Europe and North America.",
+      "The period became known as the Year Without a Summer."
+    ],
+    "sources": [
+      {
+        "url": "https://www.britannica.com/science/year-without-a-summer",
+        "title": "Encyclopaedia Britannica: Year Without a Summer",
+        "facts": ["The year 1816 was marked by unusually cold weather.", "The 1815 Tambora eruption contributed to the cooling."]
+      },
+      {
+        "url": "https://earthobservatory.nasa.gov/images/1510/global-effects-of-mount-tambora",
+        "title": "NASA Earth Observatory: Global Effects of Mount Tambora",
+        "facts": ["Tambora's 1815 eruption affected global climate.", "Cold weather and crop failures followed in 1816."]
+      }
+    ]
+  },
+  {
+    "topic": "The ancient Roman fast-food counter preserved at Pompeii",
+    "historical_period": "1st century CE",
+    "main_person_or_event": "Pompeii thermopolium",
+    "facts": [
+      "Archaeologists excavated a decorated thermopolium at Pompeii.",
+      "Thermopolia sold ready-to-eat food and drinks from counters fitted with large jars.",
+      "The site was preserved when Vesuvius erupted in 79 CE."
+    ],
+    "sources": [
+      {
+        "url": "https://pompeiisites.org/en/comunicati/the-thermopolium-of-regio-v-resurfaces-in-its-entirety-with-the-images-of-food-and-animals-that-embellished-it/",
+        "title": "Archaeological Park of Pompeii: Thermopolium of Regio V",
+        "facts": ["The Regio V thermopolium had a decorated counter and containers for food.", "It served food and drink in ancient Pompeii."]
+      },
+      {
+        "url": "https://www.britannica.com/place/Pompeii",
+        "title": "Encyclopaedia Britannica: Pompeii",
+        "facts": ["Pompeii was buried by the eruption of Vesuvius in 79 CE."]
+      }
+    ]
+  },
+  {
+    "topic": "The dancing plague of Strasbourg",
+    "historical_period": "1518",
+    "main_person_or_event": "Dancing plague of 1518",
+    "facts": [
+      "In 1518, people in Strasbourg danced uncontrollably for days or weeks.",
+      "Authorities initially responded by providing spaces and musicians for dancing.",
+      "The cause remains debated and uncertain."
+    ],
+    "sources": [
+      {
+        "url": "https://www.britannica.com/event/dancing-plague-of-1518",
+        "title": "Encyclopaedia Britannica: Dancing plague of 1518",
+        "facts": ["A dancing mania occurred in Strasbourg in 1518.", "Its cause remains uncertain."]
+      },
+      {
+        "url": "https://www.historytoday.com/archive/months-past/dancing-plague-strasbourg",
+        "title": "History Today: Dancing Plague of Strasbourg",
+        "facts": ["The outbreak began in Strasbourg in 1518 and authorities encouraged dancing before changing course."]
+      }
+    ]
+  }
+]
