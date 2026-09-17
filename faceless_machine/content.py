@@ -76,7 +76,7 @@ class ContentEngine:
         self.gemini = gemini
         self.history = history
 
-    def create(self, research: dict[str, Any]) -> ContentPackage:
+    def create(self, research: dict[str, Any], attempts: int = 3) -> ContentPackage:
         sources: list[Source] = research["sources"]
         evidence = "\n".join(
             f"SOURCE {index + 1}: {source.title}\nURL: {source.url}\nFACTS:\n"
@@ -106,26 +106,60 @@ Requirements:
 - Do not repeat these recent hooks: {self.history.recent_hooks()}
 - Avoid these recent footage searches: {self.history.recent_visual_queries()}
 """
-        raw = self.gemini.generate_json(prompt, CONTENT_SCHEMA, temperature=0.45)
-        package = ContentPackage(
-            topic=str(raw["topic"]).strip(),
-            hook=str(raw["hook"]).strip(),
-            script=str(raw["script"]).strip(),
-            historical_period=str(raw["historical_period"]).strip(),
-            main_person_or_event=str(raw["main_person_or_event"]).strip(),
-            sources=sources,
-            visual_queries=[str(value).strip() for value in raw["visual_queries"] if str(value).strip()],
-            youtube_title=str(raw["youtube_title"]).strip(),
-            youtube_description=str(raw["youtube_description"]).strip(),
-            tiktok_caption=str(raw["tiktok_caption"]).strip(),
-            hashtags=[re.sub(r"[^A-Za-z0-9_]", "", str(tag).lstrip("#")) for tag in raw["hashtags"]],
+        if attempts < 1:
+            raise ValueError("attempts must be at least 1")
+
+        last_error: Exception | None = None
+        retry_note = ""
+        for attempt in range(attempts):
+            try:
+                raw = self.gemini.generate_json(
+                    prompt + retry_note,
+                    CONTENT_SCHEMA,
+                    temperature=0.45,
+                )
+                package = ContentPackage(
+                    topic=str(raw["topic"]).strip(),
+                    hook=str(raw["hook"]).strip(),
+                    script=str(raw["script"]).strip(),
+                    historical_period=str(raw["historical_period"]).strip(),
+                    main_person_or_event=str(raw["main_person_or_event"]).strip(),
+                    sources=sources,
+                    visual_queries=[
+                        str(value).strip()
+                        for value in raw["visual_queries"]
+                        if str(value).strip()
+                    ],
+                    youtube_title=str(raw["youtube_title"]).strip(),
+                    youtube_description=str(raw["youtube_description"]).strip(),
+                    tiktok_caption=str(raw["tiktok_caption"]).strip(),
+                    hashtags=[
+                        re.sub(r"[^A-Za-z0-9_]", "", str(tag).lstrip("#"))
+                        for tag in raw["hashtags"]
+                    ],
+                )
+                package.subtitle_chunks = subtitle_chunks(package.script)
+                self._validate_structure(package)
+                package.verification = self._verify(package, evidence)
+                if not package.verification["verified"] or package.verification["misleading_hook"]:
+                    raise ContentError(
+                        f"Fact verification rejected the script: {package.verification}"
+                    )
+                return package
+            except (ContentError, KeyError, TypeError, ValueError) as exc:
+                last_error = exc
+                if attempt + 1 < attempts:
+                    retry_note = f"""
+
+CORRECTION REQUIRED
+The previous draft was rejected by deterministic validation for this reason:
+{exc}
+Return a completely corrected JSON draft. Count the spoken script words before responding and obey every requirement above exactly.
+"""
+
+        raise ContentError(
+            f"Content generation failed validation after {attempts} attempts: {last_error}"
         )
-        package.subtitle_chunks = subtitle_chunks(package.script)
-        self._validate_structure(package)
-        package.verification = self._verify(package, evidence)
-        if not package.verification["verified"] or package.verification["misleading_hook"]:
-            raise ContentError(f"Fact verification rejected the script: {package.verification}")
-        return package
 
     def _validate_structure(self, package: ContentPackage) -> None:
         words = package.script.split()
